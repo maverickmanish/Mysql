@@ -1,0 +1,630 @@
+mysql-ctl cli
+
+show databases;
+
+select databases();
+
+use trendytech;
+
+create database trendytech;
+
+drop database trendytech;
+
+show tables;
+
+CREATE TABLE trendytech.employee(
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) DEFAULT 'bangalore'
+)
+
+drop table employee;
+
+Manish's with \ backslash escape character ::
+insert into employee( middlen
+ame,lastname,age,salary,location) values('Manish\'s','kumar','bhardwaj',30,30000,'delhi')
+
+Kumar's with "" ::
+insert into employee( middlen
+ame,lastname,age,salary,location) values("kumar's",'bhardwaj',30,30000,'delhi')
+
+multiple entries ::
+insert into employee( middlen
+ame,lastname,age,salary,location) values('Manish\'s','kumar','bhardwaj',30,30000,'delhi'),
+('Manish\'s','kumar','bhardwaj',30,30000,'delhi');
+
+
+CREATE TABLE employee(
+id INT PRIMARY KEY AUTO_INCREMENT,
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) DEFAULT 'bangalore'
+)
+
+insert into employee(id,firstname,middlename,lastname,age,salary,location) values(1,'Manish','kumar','bhardwaj',30,30000,'delhi') ,
+(2,'Manikadan','kumar','T',29,30000,'Chennai')
+
+
+insert into employee(firstname,middlename,lastname,age,salary) values('Mankandan','muthuswami','T',30,30000)
+
+PRIMARY key as combination
+CREATE TABLE employee(
+id INT,
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) DEFAULT 'bangalore',
+ PRIMARY KEY(id,name)
+)
+
+Primary key is used to uniquely identify records in table
+cannot be null, or duplicate 
+
+we can have only one Primary key
+
+Unique keys, which cannot be duplicate, but can've NULL.
+we can have multiple unique keys
+
+In Mysql, it can hold any number of NULL values
+but other famous DB's, it hold only one NULL value
+
+
+insert into employee(id,firstname,middlename,lastname,age,salary,location) values(1,'Arushi','kumar','bhardwaj',30,30000,'delhi') ,
+(2,'reashma','kumar','T',29,30000,'Chennai')
+
+insert into employee(id,firstname,middlename,lastname,age,salary,location) values(3,'Babar','Azam','Mullah',28,120000,'Lahore Kalandars') ,
+(4,'Sohail','Khuder','T',33,60000,'Punjab')
+
+For AUTO_INCREMENT ...: the last self added value gets saved into counter
+
+IF WE'VE ANY FIELD AS AUTO_INCREMENT, THEN make sure it must be 
+defined as PRIMARY KEY.
+
+CREATE TABLE employee(
+id INT AUTO_INCREMENT,
+firstname varchar(20) NOT NULL,
+middlename varchar(20),
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+salary int NOT NULL,
+location varchar(20) DEFAULT 'bangalore',
+PRIMARY KEY(id)
+)
+
+CREATE TABLE employee(
+firstname varchar(20) NOT NULL,
+lastname varchar(20) NOT NULL,
+age int NOT NULL,
+PRIMARY KEY(lastname,firstname)
+)
+
+insert into employee values('manish','kumar',39)
+
++----+-----------+------------+----------+-----+--------+------------------+
+| id | firstname | middlename | lastname | age | salary | location         |
++----+-----------+------------+----------+-----+--------+------------------+
+|  1 | Arushi    | kumar      | bhardwaj |  30 |  30000 | delhi            |
+|  2 | reashma   | kumar      | T        |  29 |  30000 | Chennai          |
+|  3 | Babar     | Azam       | Mullah   |  28 | 120000 | Lahore Kalandars |
+|  4 | Sohail    | Khuder     | T        |  33 |  60000 | Punjab           |
++----+-----------+------------+----------+-----+--------+------------------+
+
+select * from employee where firstname = 'arushi';
+Mysql is case insensitive so, even if we've Arushi still we can search for her
+with arushi
+
+For that to work go for :: binary
+select * from employee where binary firstname = 'Arushi';
+
+Alias ::
+
+select firstname 'name'  from employee;
+select firstname as name  from employee;
+
+Not working 
+select * as details from employee;
+
+Update :::::
+
+update employee set lastname='tirruwalia' where firstname='reashma'
+
+delete :::
+delete from employee where age=33
+
+Alter vs Update
+update deals with data manipulation
+alter deals with structure/schema manipulation
+
+alter table employee add column Role varchar(50) NOT NULL
+
+:: APPLIES MANISH TO EXSTING RECORDS TOO
+:: alter table employee add column Role varchar(50) DEFAULT 'MANISH'
+
+ALTER TABLE employee modify column firstname varchar(30)
+
+alter table employee drop PRIMARY KEY;
+
+alter table employee add primary key(id);
+
+DDL   vs DML
+
+DDL: which changes definition, structure 
+or schema of table
+Create, alter, drop , select , truncate
+DML : deals with data directly
+insert , update , delete
+
+
+delete from employee; DML
+deletes records one by one ....
+
+
+truncate table employee; DDL 
+drop the table and recreates it ... More efficient
+
+Foreign Key constraint ::
+
+create table students(
+student_id INT AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+student_phone varchar(15) NOT NULL,
+student_alternative_phone varchar(15),
+enrollment_date TIMESTAMP,
+years_of_exp INT NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+selected_course INT NOT NULL DEFAULT 1,
+PRIMARY KEY(student_id),
+UNIQUE KEY(student_email)
+)
+
+insert into students(student_fname,student_lname,student_email, student_phone,years_of_exp,student_company,batch_date,source_of_joining,location,selected_course) values
+('rohit','Sharma','rohit@gmail.com','9191919191',5,'walmart','5-02-2023','linkedin','banglore',3)
+,('virat','kohli','virat@gmail.com','6978495864',34,'Nagarro','5-03-2023','Naukri','Gurgaon',4)
+,('umang','Agarwal','umang@gmail.com','9583928449',3,'Sopra steria','31-12-2022','Portal','Noida',1);
+
+select student_id, student_fname, student_phone,  enrollment_date, batch_date fr
+om students;
+
+create table courses(
+course_id INT NOT NULL,
+course_name varchar(30) NOT NULL,
+course_duration_months INT NOT NULL,
+course_fee INT NOT NULL,
+PRIMARY KEY(course_id)
+)
+
+create table new_courses(
+course_id INT NOT NULL,
+course_name varchar(30) NOT NULL,
+course_duration_months DECIMAL(3,1) NOT NULL,
+course_fee INT NOT NULL,
+changed_at TIMESTAMP DEFAULT NOW() ON UPDATE CURRENT_TIMESTAMP(),
+PRIMARY KEY(course_id)
+)
+
+insert into new_courses(course_id,course_name,course_duration_months,course_fee) values
+(1, 'big data',6.6, 50000),
+ (2, 'web development',3.2, 20000),
+ (3, 'data science',6.7, 40000),
+ (4, 'devops',1.9, 10000)
+
+DECIMAL(T,D)
+
+HERE T -- total no. of digits
+     D -- digits after decimal accepted
+
+changed_at TIMESTAMP DEFAULT NOW() ON UPDATE CURRENT_TIMESTAMP(),
+	 
+
+insert into courses values
+(1, 'big data',6, 50000),
+ (2, 'web development',3, 20000),
+ (3, 'data science',6, 40000),
+ (4, 'devops',1, 10000)
+ 
+ but to associate them, add foreign key constraint :-
+ 
+ create table students(
+student_id INT AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+student_phone varchar(15) NOT NULL,
+student_alternative_phone varchar(15),
+enrollment_date TIMESTAMP,
+years_of_exp INT NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+selected_course INT NOT NULL DEFAULT 1,
+PRIMARY KEY(student_id),
+UNIQUE KEY(student_email)
+-------------------------------------------
+FOREIGN KEY(selected_course) REFERENCES courses(course_id)
+--------------------------------------------
+)
+
+OR 
+------------------------------------------
+alter table students add constraint FOREIGN KEY(selected_course) REFERENCES cour
+-------------------------------------------------
+ses(course_id);
+
+parent - courses (dependency on it)
+child - students ( dependent table)
+
+FK constraint is used to prevent actions that would 
+destroy link b/n two tables
+
+A FK in one (child/dependent)table refers to the primarykey/Unique key in another
+table ( parent/reference)
+
+constraints ::::USED to limit type/RANGE of data that can
+go into a table
+
+BENEFIT::
+ensures the accuracy and reliability of data is maintained
+IF ANY VIOLATION, THEN ACTION IS ABORTED
+
+
+
+NOT NULL
+UNIQUE KEY
+PRIMARY Key
+FOREIGN KEY
+CHECK ( OTHER DB'S USES NOT MYSQL)
+NOT SUPPORTED IN MYSQL .. 
+EXAMPLE ... AGE CANNOT BE MORE THAN 100
+
+This query doesn't work :
+select distinct student_fname from students order by batch_date desc ;
+ERROR 3065 (HY000): Expression #1 of ORDER BY clause is not in SELECT list, references column 'trendytech.students.batch_date' which is not in SELECT list; this is incompatible with DI
+STINCT 
+
+select  student_fname from students order by batch_date desc limit 1,5;
+where 1 represents 2nd record onwards pull 5 records from resultset
+
+
+LIKE pattern matching ... % wildcard character denoting any number of occurence
+
+Answer to why DISTINCT & ORDER BY doesn't work together
+ORDER OF EXECUTION IN SQL :
+----------------------------------
+
+select  student_fname,batch_date from students order by batch_date;
+    VS
+select  student_fname from students order by batch_date;
+
+1.FROM ( LOADING THE TABLE )
+2.SELECT (PROJECTING mentioned columns and the one's 
+  specified in order by clause as it's used later on)
+
+3.DISTINCT WHICH VIOLATES the requirement
+
+4.ORDER BY (BASED ON MENTIONED COLUMNS)
+
+Aggregate Functions : group of things and one output
+average, max, etc
+
+ select count(*) from students; rows count
+ 
+ select count(*) from students where batch_date like '%-2023';
+ 
+ GROUP BY :-
+ 
+ 
+insert into students(student_fname,student_lname,student_email, student_phone,years_of_exp,student_company,batch_date,source_of_joining,location,selected_course) values
+('SURYA','KUMAR','SURYA@gmail.com','9191919191',5,'walmart','5-02-2023','linkedin','banglore',3)
+,('RAVINDER','JADEJA','RAVINDER@gmail.com','6978495864',34,'Nagarro','5-03-2023','Naukri','Gurgaon',4)
+,('CHETESHWARA','PUJARA','CHETESHWARA@gmail.com','9583928449',3,'Sopra steria','31-12-2022','Portal','Noida',1);
+
+This works...
+select source_of_joining, count(*) from students GROUP BY source_of_joining;
+select count(*), sum(years_of_exp)  from students GROUP BY source_of_joining;
+
+bUT THIS NOT 
+select count(*), location  from students GROUP BY source_of_joining;
+
+
+select count(*), location  from students GROUP BY source_of_joining;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains
+ nonaggregated column 'trendytech.students.location' which is not functionally dependen
+t on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+
+select min(years_of_exp), student_fname from students;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list
+contains nonaggregated column 'trendytech.students.student_fname'; this is incompatible
+ with sql_mode=only_full_group_by
+
+RELEVANT: 
+ select count(*),  source_of_joining, max(years_of_exp)  from students GROUP BY source_of_joining;
+ 
+ 
+ Data types :
+ 
+ if we insert decimal to INT field, then it'll round it off to the nearest integer
+ 
+ 
+ Derived column type .....
+select
+ CASE WHEN course_duration_monts > 4 THEN 'masters'
+ ELSE 'diploma'
+ END as course_type
+from courses;
+
+select 
+student_id, student_fname, student_company,
+CASE when student_company in('walmart') THEN 'PRODUCT'
+ELSE 'SERVICE' 
+END as 'Company_Type'
+from students 
+
+JOINS ;;;
+
+TABLE NAME
+
+select student_fname, course_name 
+ from students join courses 
+ on students.selected_course=courses.course_id;
+
+INSTANCE
+
+ select s.student_fname, c.course_name 
+ from students s join courses c
+ on s.selected_course=c.course_id;
+ 
+ INNERJOIN
+ by default it's inner join, wherein matching records are considered
+ and others are discarded
+ 
+ LEFTOUTER JOIN:-
+ Left table ( matching + non-matching records )
+ Right Table ( only matching records and else NULL )
+ 
+when, there'll be no matching ... when we don't have record
+in parent Table, only possible if we Won't have any
+FK constraint ... 
+
+ select s.student_fname, c.course_name 
+ from students s left join courses c
+ on s.selected_course=c.course_id;
+
+
+ CREATING A TABLE LIKE EXISTING ONES
+ 
+ CREATE TABLE students_copy as select * from students;
+  
+ 
+ RIGHTOUTER JOIN
+ Right table ( matching + non-matching records )
+ Left Table ( only matching records else NULL )
+ 
+ ( Not in MySqL) 
+ but can do with Union ALL of LEFTOUTER JOIN + RIGHTOUTER JOIN
+
+ FULLOUTER JOIN =COMBINATION OF 
+ LEFTOUTER JOIN + RIGHTOUTER JOIN
+ 
+ Cross Join :
+ number of rcords in table A * ..... table B
+ select * from employee , courses;
+ select * from employee join courses;
+ 
+ 
+ WHERE & HAVING CLAUSE
+ 
+ where is used to filter records individualy
+ before group by or aggregation....
+ 
+ HAVING does filtering post grouping on aggregated
+ records
+ ....
+ 
+select source_of_joining, count(*) as total
+from students group by source_of_joining
+having total >2;
+
+we can put where clause things in having, but it's not 
+performance efficient
+
+
+OVER CLAUSE | PARTITION CLAUSE
+
+select a.firstname , b.total , b.location , average_salry from employee a 
+join
+ (select count(*) as total, location, avg(salry) as average_salry from employee group by location) as b 
+on a.location = b.location;
+
+same task can be done by OVER  PARTITION BY ...
+
+partition by on .. those fields which we're using in 
+group by...
+but here, advantage is we can use non - aggregated 
+columns alongside ...
+
+SELECT firstname , lastname , location,
+  COUNT(location) OVER ( PARTITION BY location) as total,
+  avg(salry) OVER (PARTION BY location) as average
+  from employee;
+
+ // internal working .. it first partitions the 
+ data based on location... then do aggregation
+ 
+ ROW NUMBER :::: always used with/over order by clause
+ and can be used in conjuction with partition by - optional
+ but always then rownumber starts with 1 for each partition
+ doesn't consider duplicates with same rownumber, instead assign
+ them in sequence.. they come
+ 
+ 
+ select firstname, salry ,
+  row_number() over (order by salry desc) as rownum
+  from employee
+  
+ 5TH HIGHEST SALARY .....
+  select * from (select firstname, salry ,
+  row_number() over (order by salry desc) as rownum
+  from employee) temptable where rownum =5;
+  
+ select firstname, salry from employee order by 
+slary desc limit 4,1
+
+************************************
+limit (n-1),1 
+ 
+ 
+ select firstname, salry , location , 
+ row_number() over ( partition by location order by salry  desc) as rownum
+ from employee;
+ 
+ 
+  select firstname, salry , location , 
+ row_number() over ( partition by location order by salry  desc) as rownum
+ from employee;
+ 
+ https://onecompiler.com/mysql/3yqav3cfk
+ 
+highest salary of employees for each location : 
+  select * from (select firstname, salry , location , 
+ row_number() over ( partition by location order by salry desc ) as rownum
+ from employee) temtable where temtable.rownum=1;
+ 
+ so limitation for row_number() as considers duplicates
+ with different rownumber.
+ cannot handle duplicates properly
+ 
+ Hence, solution
+ RANK .... DENSE RANK ..::::
+ 
+RANK ... Does consider duplicates with same rownumber
+or rank... but following records gets rownumber increased 
+by no. of already visited records..
+Hence, skips some of the rank .
+ 
+ 
+DENSE_RANK ... Does consider duplicates with same rownumber
+or rank... and consecutive records get the next rank...
+
+if data doesn't have duplicate records, we get similar 
+results for row_number, rank .. dense_rank()..
+
+select IFNULL( select firstname, salry , location , 
+ row_number() over ( partition by location order by salry  desc) as rownum
+ from employee , NULL) as data;
+ 
+show which num is repeating 3 times consecutively ...
+
+self join .... :: 
+
+select distinct l1.num consecutiveNums from logs
+l1 join logs l2 on l1.id = l2.id+1 and l1.num = l2.num
+join join logs l3 on l1.id = l3.id+1 and l1.num = l3.num
+
+employees earning more than their manager :
+
+self join ::
+
+select name , salary from employee e1
+join employee e2 on e1.managerId=e2.Id and e1.salary 
+> e2.salary;
+
+Duplicate emails :
+
+select distinct email from person group by email having count(email) >1;
+
+Customer who never orders :
+
+select c.name customers from customer c 
+left join orders o on c.id =o.customerId 
+where o.customerId is null;
+
+Department highest salary ...
+
+select departmentID , salary ,
+row_number() over (partition by departmentId 
+order by salary desc as rownum ) from employee 
+where rownum = 1;
+
+select department.name , employee.name , salary 
+from employee join department on e.department_id = d.id
+where ( departmentid, salary) in 
+( select departmentId,max(salary) as salary from employee 
+group by departmentId)
+
+
+Advanced concepts :::
+
+CTE .. common table expression.. or WITH CLAUSE
+boon to simplify complex queries and it's readability
+
+common table expression defines temporary resultset
+stored in memory referred BY immediately next select,
+insert, update & delete statements;
+
+WITH total_orders (order_customer_id,total_orders_per) as 
+(select order_customer_id, count(*) as total_orders_per
+_customer from orders group by order_customer_id )
+
+WITH avg_orders_per_customer select avg(total_orders_per_customer) as  avg_orders... 
+from total_orders;
+
+total_orders is stored in memory
+as temporary resultset 
+not somewhere on disk 
+
+linear step by step process
+1. calculate total orders per customer
+2. calculate average number of orders for the customers
+3. get to know about premium customers
+
+WITH total_orders (x,y) as
+(select customer_id, count(*) from orders group by customer_id)
+,
+ avg_orders(x) as
+(select avg(y) from from total_orders)
+
+
+select to.customer_id from total_orders to 
+join avg a on to.y > a.x;
+
+CTE are performant, but mostly depends on implementing db, like
+in cse of PostgresQL post 12th version, it's smart enough to 
+materialize things 
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+order_id ... PRIMARY KEY ... CREATES 
+Unique Clustered Index
+
+Clustered means ( Records will be physically ordered 
+in the actual order despite smaller order_id gets inserted
+after bigger one .. still will be physically sequentially
+stored. 
+
+
+FROM, JOIN
+
+WHERE
+GROUP BY
+HAVING
+SELECT
+ORDER BY
+LIMIT
+
+https://onecompiler.com/mysql/3yqav3cfk
