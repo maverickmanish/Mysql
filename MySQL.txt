@@ -137,7 +137,7 @@ Update :::::
 update employee set lastname='tirruwalia' where firstname='reashma'
 
 delete :::
-delete from employee where age=33
+delete from employee where age=33 ... without where condition it will work but have to enable safeCheck
 
 Alter vs Update
 update deals with data manipulation
